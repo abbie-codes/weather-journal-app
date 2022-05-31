@@ -1,7 +1,6 @@
 /* Global Variables */
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip='
-const apiKey = '02d0be9d9cb5f0d6719c4a68eb19c53d';
-const country = ',GB&appid=';
+const apiKey = ',GB&appid=02d0be9d9cb5f0d6719c4a68eb19c53d&units=imperial';
 const date = document.getElementById('date');
 const temp = document.getElementById('temp');
 const content = document.getElementById('content');
@@ -10,12 +9,29 @@ const generate = document.querySelector("#generate");
 let d = new Date();
 let newDate = d.toDateString();
 
+/*Function that runs when Generate Button is clicked */
+generate.addEventListener("click", (e)=>{
+  e.preventDefault();
+  let postCode = document.getElementById('zip').value.toUpperCase(); //To uppercase for letters so that API can find UK postcode
+  let url = baseURL + postCode + apiKey;
+  getWeather(url)
+  .then((data) => {
+      getProjectData(data)
+  .then((data) => {
+    getServerData("/all")
+  .then(data=>{
+      updateUI(data);
+  });
+  });
+  });
+});
+
 /*Link to OpenWeatherApp API */
-const getWeather = async (url) => {
+let getWeather = async (url) => {
   try {
-    const response = await fetch(url);
-    const result = await response.json();
-    return result;
+    const result = await fetch(url);
+    const data = await result.json();
+    return data;
   }
   catch (error) {
     console.log("error", error);
@@ -23,80 +39,55 @@ const getWeather = async (url) => {
 };
 
 /*Define data entry object items*/
-const projectData = async (data) => {
+let getProjectData = async (data) => {
   try {
     const entry = {
       date: newDate,
       temp: data.main.temp,
-      content: feelings.value,
+      content: feelings.value
     };
-    return entry;
-
+    postData("/add", entry);
   } catch (error) {
     console.log("error", error);
   }
 };
 
 /* Async POST */
-const postData = async (url = '', data = {}) => {
-
-  const response = await fetch(url, {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data), // body data type must match "Content-Type" header        
-  });
-
+let postData = async (url = "", data = {}) => {
   try {
-    const newData = await response.json();
-    return newData;
+    let response = await fetch(url, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)// body data type must match "Content-Type" header        
+    });
+    return response;
   } catch (error) {
     console.log("error", error)
   }
-}
+};
 
-/*Retrieve data sent to the server*/
-const retrieveData = async (url) => {
-  const response = await fetch(url);
+/*Retrieve data sent to the server */
+const getServerData = async (url) => {
+  let response = await fetch(url);
   try{
-      const result = await response.json();
-      return result;
+      let result = await response.json();
+      return result
   }catch (error) {
       console.error("error", error);
   }
 };
 
-/*Update UI */
-const updateUI = async (url) => {
-  const request = await fetch(url);
+/*Update UI*/
+const updateUI = async (data) => {
   try {
-    const allData = await request.json();
-    date.innerHTML = allData.newDate;
-    temp.innerHTML = allData.temp;
-    content.innerHTML = allData.content;
+    date.innerHTML = "Date: " + "<br>" + data.date;
+    temp.innerHTML = "Temperature:" + "<br>" + data.temp + "°F";
+    content.innerHTML = "Feelings:" + "<br>" + data.content;
   } catch (error) {
-    console.log("error", error)
+    console.log("error", error);
   }
 }
 
-/*Function that runs when Generate Button is clicked */
-generate.addEventListener("click", (e)=>{
-  e.preventDefault();
-  let postCode = document.getElementById('zip').value;
-  const url = baseURL + postCode + country + apiKey;
-  getWeather(url)
-  .then(function (data) {
-      projectData(data);
-    })
-  .then(function (entry) {
-      postData("/add", entry);
-    })
-  .then(function (data) {
-    retrieveData("/all");
-    })
-  .then(function (data) {
-    updateUI(url);
-  });
-});

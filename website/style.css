@@ -20,13 +20,8 @@ body{
     align-items: center;
     justify-content: center;
     height: 100%;
-    gap: 5%;
+    gap: 2%;
 }
-
-
-/*.holder{
-
-}*/
 
 .entry{
     background: rgba(59, 74, 107, .8);
@@ -35,7 +30,7 @@ body{
     border-radius: 10px;
     margin: 10px;
     color: #fff;
-    height: 69%;
+    height: 40%;
     width: 30%;
 }
 
@@ -46,30 +41,22 @@ body{
     gap: 10px;
 }
 
-/*#entryHolder{
-
+#entryHolder{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
-#date{
-
+#date,
+#temp,
+#content {
+    padding-bottom: 1em;
 }
-
-#temp{
-
-}
-
-#content{
-
-}*/
 
 .headline {
     font-size: 2em;
     text-align: center;
 }
-
-/*.title{
-
-}*/
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
 label{
@@ -85,9 +72,14 @@ input{
     color: #3b4a6b;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
-    border: #22b2da solid 2px;
+    border: #fff solid 2px;
     border-radius: 10px;
     padding: 5px;
+}
+
+input:hover,
+input:active {
+    border: 5px #22b2da solid;
 }
 
 button{
@@ -111,12 +103,18 @@ textarea{
     background: #fff;
     color: #3b4a6b;
     padding: 5px;
-    border: #22b2da solid 2px;
+    border: #fff solid 2px;
     border-radius: 10px;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
     width: 100%;
 }
+
+textarea:hover,
+textarea:active {
+    border: 5px #22b2da solid;
+}
+
 /* Reset style for HTML element on active to have no border*/
 input:focus,
 select:focus,
@@ -124,6 +122,7 @@ textarea:focus,
 button:focus {
     outline: none;
 }
+
 /* Style for Placeholder Text*/
 ::placeholder { /* Firefox, Chrome, Opera */ 
     color: #3b4a6b; 
