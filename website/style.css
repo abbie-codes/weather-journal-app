@@ -141,3 +141,15 @@ button:focus {
     font-family: 'Oswald', sans-serif;
 
 } 
+
+@media only screen and (max-width: 1000px) {
+    .main-container {
+        display:flex;
+        flex-direction: column;
+    }
+
+    .holder.entry,
+    .input-column{
+        width: 90%;
+    }
+}
