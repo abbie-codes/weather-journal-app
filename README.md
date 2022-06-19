@@ -2,9 +2,7 @@
 
 A weather journal app created for Udacity Front End Development Nanodegree.
 
-This website is deployed [here](https://weather-journal-app-4vfhs.ondigitalocean.app/)
-
-I used [Digital Ocean](https://www.digitalocean.com/) to deploy the site as they host Node.js servers.
+My website is deployed [here](https://weather-journal-app-4vfhs.ondigitalocean.app/). I used [Digital Ocean](https://www.digitalocean.com/) to deploy the site as they host Node.js servers.
 
 For this project I created a node.js server to store data from a combination of sources:
 
