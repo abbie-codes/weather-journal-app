@@ -1,4 +1,3 @@
-![weather-journal-app](https://user-images.githubusercontent.com/100278218/174496531-9a697538-268c-451a-8bb2-fa398dc73943.jpg)
 # Weather Journal App
 
 A weather journal app created for Udacity Front End Development Nanodegree.
